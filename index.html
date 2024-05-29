@@ -32,11 +32,12 @@
       // Specify the basemap gallery widget while adding to the view's UI
       const basemapGallery = new BasemapGallery({
         view: view,
+        container: "basemapGalleryDiv",
         source: [Basemap.fromId("arcgis-gray"), Basemap.fromId("arcgis-dark-gray")]
       })
-      // Add the basemap gallery widget to the top-left corner of the view
+      // Add the basemap gallery widget to the bottom-left corner of the view
       view.ui.add(basemapGallery, {
-        position: "top-left"
+        position: "bottom-left"
       })
     });  
    </script>
@@ -52,8 +53,9 @@
 </head>
 <body>
 
-  <!-- the div to display the map-->
-  <div id="viewDiv"></div> 
+  <!-- the divs to display the map-->
+  <div id="viewDiv"></div>
+  <div id="basemapGalleryDiv"></div> 
 
 </body>
 </html>
