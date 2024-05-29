@@ -32,10 +32,9 @@
           zoom: 14,
           container: "viewDiv" // Div element
         });
-      // Create the basemap gallery widget and set its container to a div
+      // Create the basemap gallery widget
       const basemapGallery = new BasemapGallery({
           view: view,
-          container: "basemapGalleryDiv",
         })
       // Create an expand for the basemap gallery widget
         const bgExpand = new Expand({
@@ -77,7 +76,6 @@
 
   <!-- the divs to display the map-->
   <div id="viewDiv"></div>
-  <div id="basemapGalleryDiv"></div> 
 
 </body>
 </html>
