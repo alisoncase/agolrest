@@ -10,35 +10,52 @@
   <link rel="stylesheet" href="https://js.arcgis.com/4.25/esri/themes/light/main.css">
   <script src="https://js.arcgis.com/4.25/"></script>
 
-  <!-- Adding the modules needed for a full screen map app-->
+  <!-- Adding the modules needed for a full screen map app and widgets-->
   <script>  
     require([
       "esri/config", 
       "esri/Map", 
       "esri/views/MapView",
-      "esri/widgets/BasemapGallery"
-    ], function(esriConfig, Map, MapView, BasemapGallery) { 
+      "esri/widgets/BasemapGallery",
+      "esri/widgets/Locate",
+      "esri/widgets/Search"
+    ], function(esriConfig, Map, MapView, BasemapGallery, Locate, Search) { 
       esriConfig.apiKey = "AAPK51131ceb7a344744a1876418638342eeSK8Lwr1BXfJ_rAAGMFmph-VYFJCbhVaGp2tW9m6iEHGJBjg1DFEhUf3Ay1rM_yWw";
       const map = new Map({ 
         basemap: "arcgis-newspaper" // Basemap layer service 
       });
-
+      // Specifiy map view centered on downtown Chicago
       const view = new MapView({
           map: map,
-          center: [-87.62618752507854, 41.8795777040357], // Lon, lat for Chicago Loop
-          zoom: 15,
+          center: [-87.62618752507854, 41.8795777040357], // Lon, lat for downtown Chicago
+          zoom: 14,
           container: "viewDiv" // Div element
         });
       // Specify the basemap gallery widget while adding to the view's UI
       const basemapGallery = new BasemapGallery({
           view: view,
           container: "basemapGalleryDiv",
-          label: "Change Basemap",
-          source: [Basemap.fromId("arcgis-gray"), Basemap.fromId("arcgis-dark-gray")]
         })
       // Add the basemap gallery widget to the bottom-left corner of the view
       view.ui.add(basemapGallery, {
           position: "bottom-left"
+        })
+      // Specify the locate widget in the view's UI
+      const locateBtn = new Locate({
+          view: view
+        })
+       // Add the locate widget to the top left corner of the view
+      view.ui.add(locateBtn, {
+          position: "top-left"
+        })
+      // Specify the search widget in the view's UI
+        const searchWidget = new Search({
+          view: view
+        });
+      // Add the search widget to the top-right corner
+      view.ui.add(searchWidget, {
+          position: "top-right",
+          index: 2
         })
     });  
    </script>
@@ -50,6 +67,13 @@
     #viewDiv {  padding: 0;  margin: 0;  height: 100%;  width: 100%;  
     }  
   </style> 
+  <!-- css to add background to basemap widget-->
+  <style>
+    #basemapGalleryDiv {
+      background-color: lightgray;
+      padding: 5px;
+    }
+  </style>
 
 </head>
 <body>
