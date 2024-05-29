@@ -29,15 +29,15 @@
           zoom: 15,
           container: "viewDiv" // Div element
         });
-        // Specify the widget while adding to the view's UI
-        const basemapGallery = new BasemapGallery({
-          view: view,
-          source: [Basemap.fromId("arcgis-gray"), Basemap.fromId("arcgis-dark-gray")]
-        })
-        // Add the widget to the top-right corner of the view
-        view.ui.add(basemapGallery, {
-          position: "top-left"
-        })
+      // Specify the basemap gallery widget while adding to the view's UI
+      const basemapGallery = new BasemapGallery({
+        view: view,
+        source: [Basemap.fromId("arcgis-gray"), Basemap.fromId("arcgis-dark-gray")]
+      })
+      // Add the basemap gallery widget to the top-left corner of the view
+      view.ui.add(basemapGallery, {
+        position: "top-left"
+      })
     });  
    </script>
 
