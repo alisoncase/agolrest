@@ -17,7 +17,7 @@
       "esri/Map", 
       "esri/views/MapView",
       "esri/widgets/BasemapGallery"
-    ], function(esriConfig, Map, MapView) { 
+    ], function(esriConfig, Map, MapView, BasemapGallery) { 
       esriConfig.apiKey = "AAPK51131ceb7a344744a1876418638342eeSK8Lwr1BXfJ_rAAGMFmph-VYFJCbhVaGp2tW9m6iEHGJBjg1DFEhUf3Ay1rM_yWw";
       const map = new Map({ 
         basemap: "arcgis-newspaper" // Basemap layer service 
@@ -29,13 +29,15 @@
           zoom: 15,
           container: "viewDiv" // Div element
         });
-      const basemapGallery = new BasemapGallery({
-        view: view,
-        source: [Basemap.fromId("arcgis-gray"), Basemap.fromId("arcgis-dark-gray")]
-      })
-      view.ui.add(basemapGallery, {
-        position: "top-left"
-      })
+        // Specify the widget while adding to the view's UI
+        const basemapGallery = new BasemapGallery({
+          view: view,
+          source: [Basemap.fromId("arcgis-gray"), Basemap.fromId("arcgis-dark-gray")]
+        })
+        // Add the widget to the top-right corner of the view
+        view.ui.add(basemapGallery, {
+          position: "top-left"
+        })
     });  
    </script>
 
