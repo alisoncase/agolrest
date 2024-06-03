@@ -19,8 +19,10 @@
       "esri/widgets/BasemapGallery",
       "esri/widgets/Expand",
       "esri/widgets/Locate",
-      "esri/widgets/Search"
-    ], function(esriConfig, Map, MapView, BasemapGallery, Expand, Locate, Search) { 
+      "esri/widgets/Search",
+      "esri/Graphic",
+      "esri/layers/GraphicsLayer"
+    ], function(esriConfig, Map, MapView, BasemapGallery, Expand, Locate, Search, Graphic, GraphicsLayer) { 
       esriConfig.apiKey = "AAPK51131ceb7a344744a1876418638342eeSK8Lwr1BXfJ_rAAGMFmph-VYFJCbhVaGp2tW9m6iEHGJBjg1DFEhUf3Ay1rM_yWw";
       const map = new Map({ 
         basemap: "arcgis-newspaper" // Basemap layer service 
@@ -32,7 +34,33 @@
           zoom: 14,
           container: "viewDiv" // Div element
         });
-      // Create the basemap gallery widget
+      // Add the constructor for the graphics layer
+      const graphicsLayer = new GraphicsLayer();  
+      map.add(graphicsLayer);
+      
+      // Define the geometry of a point
+      const point = { //Create a point  
+        type: "point",  
+        longitude: -87.62328298433603,    //long lat of Cloud Gate sculpture
+        latitude: 41.88324258107193 
+      };
+      // Define the marker style
+      const simpleMarkerSymbol = {  
+        type: "simple-marker",  
+        color: [43, 140, 190],  // Blue
+        outline: {  
+          color: [166, 189, 219], // Light blue 
+          width: 1
+        }  
+      };
+      // Create the point
+      const pointGraphic = new Graphic({  
+        geometry: point,  
+        symbol: simpleMarkerSymbol  
+      });
+      // Add the point to the graphicsLayer
+      graphicsLayer.add(pointGraphic);
+        // Create the basemap gallery widget
       const basemapGallery = new BasemapGallery({
           view: view,
         })
