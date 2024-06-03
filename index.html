@@ -21,8 +21,9 @@
       "esri/widgets/Locate",
       "esri/widgets/Search",
       "esri/Graphic",
-      "esri/layers/GraphicsLayer"
-    ], function(esriConfig, Map, MapView, BasemapGallery, Expand, Locate, Search, Graphic, GraphicsLayer) { 
+      "esri/layers/GraphicsLayer",
+      "esri/layers/FeatureLayer"
+    ], function(esriConfig, Map, MapView, BasemapGallery, Expand, Locate, Search, Graphic, GraphicsLayer, FeatureLayer) { 
       esriConfig.apiKey = "AAPK51131ceb7a344744a1876418638342eeSK8Lwr1BXfJ_rAAGMFmph-VYFJCbhVaGp2tW9m6iEHGJBjg1DFEhUf3Ay1rM_yWw";
       const map = new Map({ 
         basemap: "arcgis-newspaper" // Basemap layer service 
@@ -141,8 +142,27 @@
       //graphicsLayer.add(pointGraphic);
       // Add the graphics to the graphic layer
       view.graphics.addMany([pointGraphic, polylineGraphic, polygonGraphic])
-        // Create the basemap gallery widget
-      const basemapGallery = new BasemapGallery({
+      
+      // Define a pop-up for usaeduLayer
+      const popupEduusa = {
+        "title": "EDUs",
+        "content": "<b>Name:</b> {NAME}<br><b>Total Enrollment:</b> {TOT_ENROLL}<br>"
+      }
+
+      //adding the Const for the feature layer
+      const usaeduLayer = new FeatureLayer({
+      url: "https://services2.arcgis.com/FiaPA4ga0iQKduv3/arcgis/rest/services/Colleges_and_Universities_View/FeatureServer",
+
+      //adding the popup here
+      outFields: ["NAME","TOT_ENROLL"],
+      popupTemplate: popupEduusa
+      });
+
+      //adding the feature layer to the map
+      map.add(usaeduLayer);
+      
+      // Create the basemap gallery widget
+        const basemapGallery = new BasemapGallery({
           view: view,
         })
       // Create an expand for the basemap gallery widget
