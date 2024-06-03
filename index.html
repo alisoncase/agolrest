@@ -70,8 +70,77 @@
         attributes: attributes,
         popupTemplate: popupTemplate  
       });
+
+      // Create the line geometry
+      const polyline = {
+        type: "polyline",
+        paths: [
+          [-87.62376144472104, 41.8853250104911,],
+          [-87.62376167344817, 41.884516535483314],
+          [-87.62463070887823, 41.88454449185593],
+          [-87.62451269193123, 41.87838181611136],
+          [-87.63489782870886, 41.878337581128285,]
+        ]
+      }
+      // Create a symbol for drawing the line
+      const lineSymbol = {
+          type: "simple-line",
+          color: [43, 140, 190],
+          width: 1
+        };
+      // Create an object for storing attributes related to the line
+      const linePopupTemplate = {
+        title: "{Name}",
+        content: "{Distance}"
+      }
+      const lineAtt = {
+          Name: "Giordano's Pizza to Giordano's Pizza Walking Route",
+          Distance: "1.1 miles"
+        };
+        const polylineGraphic = new Graphic({
+          geometry: polyline,
+          symbol: lineSymbol,
+          attributes: lineAtt,
+          popupTemplate: linePopupTemplate
+        });
+      // Create polygon geomtery
+      const polygon = {
+        type: "polygon",
+        rings: [[-87.62763439168043, 41.875604380583106],
+        [-87.62765584935097, 41.87232895161304],
+        [-87.63065455880881, 41.872253055537435],
+        [-87.6307296606557, 41.87555245436011],
+        [-87.62763439168043, 41.875604380583106]]
+      }
+      // Create a symbol for the polygon graphic
+      const fillSymbol = {
+          type: "simple-fill",
+          color: [43, 140, 190, 0.75],
+          outline: {
+            color: [166, 189, 219],
+            width: 1
+          }
+        };
+      // Create an object for storing attributes related to the line
+          const polygonPopupTemplate = {
+        title: "{Name}",
+        content: "{Description}"
+      }
+      const polygonAtt = {
+          Name: "Printer's Row",
+          Description: "A neighborhood in downtown Chicago with roots dating back to the 1880s as a major printing hub."
+        };
+        // Add the polygon geometry and symbol to a new graphic
+      const polygonGraphic = new Graphic({
+        geometry: polygon,
+        symbol: fillSymbol,
+        attributes: polygonAtt,
+        popupTemplate: polygonPopupTemplate
+      });
       // Add the point to the graphicsLayer
-      graphicsLayer.add(pointGraphic);
+      //graphicsLayer.add(pointGraphic);
+      // Add the graphics to the graphic layer
+      view.graphics.addMany([pointGraphic, polylineGraphic, polygonGraphic])
         // Create the basemap gallery widget
       const basemapGallery = new BasemapGallery({
           view: view,
