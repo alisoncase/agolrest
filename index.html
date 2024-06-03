@@ -54,10 +54,21 @@
           width: 1
         }  
       };
+      const popupTemplate = {
+        title: "{Name}",
+        content: "{Description}"
+      }
+      const attributes = {
+          Name: "Cloud Gate Sculpture",
+          Description: "Large outdoor sculpture shaped like a bean"
+      }
       // Create the point
       const pointGraphic = new Graphic({  
         geometry: point,  
-        symbol: simpleMarkerSymbol  
+        symbol: simpleMarkerSymbol,
+        // Add popup properties
+        attributes: attributes,
+        popupTemplate: popupTemplate  
       });
       // Add the point to the graphicsLayer
       graphicsLayer.add(pointGraphic);
