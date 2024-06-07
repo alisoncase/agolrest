@@ -82,28 +82,28 @@
           [-87.62442201471164, 41.87825471265349],
           [-87.63497063508214, 41.87806184586906]          
         ]
-      }
+        }
       // Create a symbol for drawing the line
       const lineSymbol = {
           type: "simple-line",
           color: [43, 140, 190],
           width: 2
-        };
+      };
       // Create an object for storing attributes related to the line
       const linePopupTemplate = {
         title: "{Name}",
         content: "{Distance}"
-      }
+        }
       const lineAtt = {
           Name: "Giordano's Pizza to Giordano's Pizza Walking Route",
           Distance: "1.1 miles"
         };
-        const polylineGraphic = new Graphic({
-          geometry: polyline,
-          symbol: lineSymbol,
-          attributes: lineAtt,
-          popupTemplate: linePopupTemplate
-        });
+      const polylineGraphic = new Graphic({
+        geometry: polyline,
+        symbol: lineSymbol,
+        attributes: lineAtt,
+        popupTemplate: linePopupTemplate
+      });
       // Create polygon geomtery
       const polygon = {
         type: "polygon",
@@ -123,7 +123,7 @@
           }
         };
       // Create an object for storing attributes related to the line
-          const polygonPopupTemplate = {
+        const polygonPopupTemplate = {
         title: "{Name}",
         content: "{Description}"
       }
@@ -139,44 +139,40 @@
         popupTemplate: polygonPopupTemplate
       });
       // Add the graphics to the graphic layer
-      view.graphics.addMany([pointGraphic, polylineGraphic, polygonGraphic])
+      view.graphics.addMany([pointGraphic, polylineGraphic, polygonGraphic]);
       
-      // Define a pop-up for usaeduLayer
-      const popupEduusa = {
-        "title": "EDUs",
-        "content": "<b>Name:</b> {INSTNM}<br><b>Enrollment Profile:</b> {C21ENPRF}<br><b>Highest Level of Offering: </b>{HLOFFER}<br><b>Website: </b><a href={WEBADDR}>{WEBADDR}<a><br>"
+      // Define a pop-up for public schools layer
+      const popupPublicSchools = {
+        title: "{NAME}",
+        //Content goes in a table to make it easier to read
+        content: "<table><tbody><tr><td><b>Address:</b></td><td>{STREET}<br>{CITY}, {STATE} {ZIP}</td></tr><tr><td><br><b>Congressional District:</b></td><td><br>{CD}</td></tr></tbody></table>"
       }
+      // Create public schools layer
+        const publicSchoolsLayer = new FeatureLayer({
+        url: "https://services1.arcgis.com/Ua5sjt3LWTPigjyD/arcgis/rest/services/Public_School_Location_201819/FeatureServer",
+        outFields: ["NAME","STREET","CITY","STATE","ZIP","CD"],
+        popupTemplate: popupPublicSchools
+        });
 
-      //adding the Const for the feature layer
-      const usaeduLayer = new FeatureLayer({
-      url: "https://services2.arcgis.com/FiaPA4ga0iQKduv3/arcgis/rest/services/Colleges_and_Universities_View/FeatureServer",
-
-        
-      //adding the pop-up
-      outFields: ["INSTNM","C21ENPRF","HLOFFER","WEBADDR"],
-      popupTemplate: popupEduusa
-      });
-
-      //adding the feature layer to the map
-      map.add(usaeduLayer);
-      
+      map.add(publicSchoolsLayer);
+     
       // Create the basemap gallery widget
-        const basemapGallery = new BasemapGallery({
-          view: view,
-        })
+      const basemapGallery = new BasemapGallery({
+        view: view,
+      })
       // Create an expand for the basemap gallery widget
-        const bgExpand = new Expand({
-          view: view,
-          content: basemapGallery,
-          icon: "basemap"
-        })
+      const bgExpand = new Expand({
+        view: view,
+        content: basemapGallery,
+        icon: "basemap"
+      })
       // Add the basemap gallery expand instance to the bottom-left corner
-        view.ui.add(bgExpand, "bottom-left");
+      view.ui.add(bgExpand, "bottom-left");
       // Create the locate widget in the view's UI
       const locateBtn = new Locate({
           view: view
         })
-       // Add the locate widget to the top-left corner
+        // Add the locate widget to the top-left corner
       view.ui.add(locateBtn, {
           position: "top-left"
         })
@@ -184,6 +180,7 @@
         const searchWidget = new Search({
           view: view
         });
+      
       // Add the search widget to the top-right corner
       view.ui.add(searchWidget, {
           position: "top-right",
