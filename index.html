@@ -162,9 +162,21 @@
         //Content goes in a table to make it easier to read
         content: "<table><tbody><tr><td><b>Location: </b></td><td>{City}, {State_Post}</td></tbody></table>"
       }
+      // Creating an airport icon
+      const airportRenderer = {
+        "type": "simple",
+        "symbol": {
+          "type": "picture-marker",
+          "url": "https://alisoncase.github.io/agol/local_airport_24dp.png",
+          "width": "18px",
+          "height": "18px"
+        }
+      }
+
       // Create airports layer
         const airportsLayer = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/US_Airports_June2024/FeatureServer",
+        renderer: airportRenderer,
         outFields: ["Fac_Name","City", "State_Post"],
         popupTemplate: popupAirports
         });
