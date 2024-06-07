@@ -177,6 +177,7 @@
         const airportsLayer = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/US_Airports_June2024/FeatureServer",
         renderer: airportRenderer,
+        definitionExpression: "Fac_Type = 'AIRPORT'",
         outFields: ["Fac_Name","City", "State_Post"],
         popupTemplate: popupAirports
         });
