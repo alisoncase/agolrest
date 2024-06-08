@@ -10,7 +10,7 @@
   <link rel="stylesheet" href="https://js.arcgis.com/4.25/esri/themes/light/main.css">
   <script src="https://js.arcgis.com/4.25/"></script>
 
-  <!-- Adding the modules needed for the map app-->
+  <!-- Add the modules needed for the map app-->
   <script>  
     require([
       "esri/config", 
@@ -76,6 +76,7 @@
       const polyline = {
         type: "polyline",
         paths: [
+          // points for pizzeria walking route
           [-87.62376144472104, 41.8853250104911,],
           [-87.62376167344817, 41.884516535483314],
           [-87.62463070887823, 41.88454449185593],
@@ -86,7 +87,7 @@
       // Create a symbol for drawing the line
       const lineSymbol = {
           type: "simple-line",
-          color: [43, 140, 190],
+          color: [43, 140, 190], // blue
           width: 2
       };
       // Create an object for storing attributes related to the line
@@ -107,6 +108,7 @@
       // Create polygon geomtery
       const polygon = {
         type: "polygon",
+        // boundaries for Printers Row neighborhood
         rings: [[-87.62763439168043, 41.875604380583106],
         [-87.62765584935097, 41.87232895161304],
         [-87.63065455880881, 41.872253055537435],
@@ -116,13 +118,13 @@
       // Create a symbol for the polygon graphic
       const fillSymbol = {
           type: "simple-fill",
-          color: [43, 140, 190, 0.75],
+          color: [43, 140, 190, 0.75], //blue
           outline: {
-            color: [166, 189, 219],
+            color: [166, 189, 219], //light blue
             width: 1
           }
         };
-      // Create an object for storing attributes related to the line
+      // Create an object for storing attributes related to the polygon
         const polygonPopupTemplate = {
         title: "{Name}",
         content: "{Description}"
@@ -141,28 +143,29 @@
       // Add the graphics to the graphic layer
       view.graphics.addMany([pointGraphic, polylineGraphic, polygonGraphic]);
       
-      // Define a pop-up for public schools layer
-      const popupPublicSchools = {
-        title: "{NAME}",
-        //Content goes in a table to make it easier to read
-        content: "<table><tbody><tr><td><b>Address:</b></td><td>{STREET}<br>{CITY}, {STATE} {ZIP}</td></tr><tr><td><br><b>Congressional District:</b></td><td><br>{CD}</td></tr></tbody></table>"
+      // Define a pop-up for historic sites layer
+      const popupHistoricSites = {
+        title: "{RESNAME}",
+        // Add content in a table for easier reading
+        content: "<table><tbody><tr><td><b>Address:</b></td><td>{ADDRESS}<br>{CITY}, {STATE}</td></tr><tr><td><br><b>Resource Type:</b></td><td><br>{ResType}</td></tr><tr><td><br><b>National Archive Information:</b></td><td><br><a href='{NARA_URL}'>{NARA_URL}</a></td></tr></tbody></table>"
       }
-      // Create public schools layer
-        const publicSchoolsLayer = new FeatureLayer({
-        url: "https://services1.arcgis.com/Ua5sjt3LWTPigjyD/arcgis/rest/services/Public_School_Location_201819/FeatureServer",
-        outFields: ["NAME","STREET","CITY","STATE","ZIP","CD"],
-        popupTemplate: popupPublicSchools
+
+      // Create historic sites layer
+        const historicSitesLayer = new FeatureLayer({
+        url: "https://services2.arcgis.com/FiaPA4ga0iQKduv3/arcgis/rest/services/nrhp_points_v1/FeatureServer",
+        outFields: ["RESNAME","ADDRESS","CITY","STATE","NARA_URL","ResType"],
+        popupTemplate: popupHistoricSites
         });
 
-      map.add(publicSchoolsLayer);
-     
+      map.add(historicSitesLayer);      
+
       // Define a pop-up for airports layer
       const popupAirports = {
         title: "{Fac_Name}",
-        //Content goes in a table to make it easier to read
+        //Content goes in a table
         content: "<table><tbody><tr><td><b>Location: </b></td><td>{City}, {State_Post}</td></tbody></table>"
       }
-      // Creating an airport icon
+      // Create an airport icon
       const airportRenderer = {
         "type": "simple",
         "symbol": {
@@ -173,12 +176,12 @@
         }
       }
 
-      //const to make the airport labels
+      // Const to make the airport labels
       const airportLabels = {
         symbol: {
           type: "text",
-          color: "#FFFFFF",
-          haloColor: "#5E8D74",
+          color: "#FFFFFF", //white
+          haloColor: "#5E8D74", //green
           haloSize: "2px",
           font: {
             size: "12px",
@@ -196,14 +199,63 @@
       // Create airports layer
         const airportsLayer = new FeatureLayer({
         url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/US_Airports_June2024/FeatureServer",
-        renderer: airportRenderer,
+        renderer: airportRenderer, //add the icon
         definitionExpression: "Fac_Type = 'AIRPORT'",
-        labelingInfo: [airportLabels], //adding the labels
+        labelingInfo: [airportLabels], //add the labels
         outFields: ["Fac_Name","City", "State_Post"],
         popupTemplate: popupAirports
         });
 
       map.add(airportsLayer);
+
+      // Define a pop-up for heliports layer
+      const popupHeliports = {
+        title: "{Fac_Name}",
+        //Content goes in a table
+        content: "<table><tbody><tr><td><b>Location: </b></td><td>{City}, {State_Post}</td></tbody></table>"
+      }
+      // Create a heliport icon
+      const heliportRenderer = {
+        "type": "simple",
+        "symbol": {
+          "type": "picture-marker",
+          "url": "https://alisoncase.github.io/agol/helicopter_24dp_FILL0_wght400_GRAD0_opsz24.png",
+          "width": "18px",
+          "height": "18px"
+        }
+      }
+
+      //const to make the heliport labels
+      const heliportLabels = {
+        symbol: {
+          type: "text",
+          color: "#FFFFFF", //white
+          haloColor: "#770CFF", //purple
+          haloSize: "2px",
+          font: {
+            size: "12px",
+            family: "Noto Sans",
+            style: "italic",
+            weight: "normal"
+          }
+        },
+        labelPlacement: "above-center",
+        labelExpressionInfo: {
+          expression: "$feature.Fac_Name"
+        }
+      };
+
+      // Create heliports layer
+        const heliportsLayer = new FeatureLayer({
+        url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/US_Airports_June2024/FeatureServer",
+        renderer: heliportRenderer, //add the icon
+        definitionExpression: "Fac_Type = 'HELIPORT'",
+        labelingInfo: [heliportLabels], //add the labels
+        outFields: ["Fac_Name","City", "State_Post"],
+        popupTemplate: popupHeliports
+        });
+
+      map.add(heliportsLayer);
      
 
       // Create the basemap gallery widget
