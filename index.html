@@ -23,8 +23,9 @@
       "esri/Graphic",
       "esri/layers/GraphicsLayer",
       "esri/layers/FeatureLayer",
-      "esri/widgets/Editor"
-    ], function(esriConfig, Map, MapView, BasemapGallery, Expand, Locate, Search, Graphic, GraphicsLayer, FeatureLayer, Editor) { 
+      "esri/widgets/Editor",
+      "esri/widgets/Legend"
+    ], function(esriConfig, Map, MapView, BasemapGallery, Expand, Locate, Search, Graphic, GraphicsLayer, FeatureLayer, Editor, Legend) { 
       esriConfig.apiKey = "AAPK51131ceb7a344744a1876418638342eeSK8Lwr1BXfJ_rAAGMFmph-VYFJCbhVaGp2tW9m6iEHGJBjg1DFEhUf3Ay1rM_yWw";
       const map = new Map({ 
         basemap: "arcgis-newspaper" // Basemap layer service 
@@ -354,6 +355,32 @@
 
       // Add the widget to the view
       view.ui.add(editor, "top-right");
+    
+      const legend = new Legend ({
+        view: view,
+        layerInfos: [
+          {
+            layer: airportsLayer,
+            title: "Airports"
+          },
+          {
+            layer: heliportsLayer,
+            title: "Heliports"
+          },
+          {
+            layer: myAirports,
+            title: "My Airports"
+          },
+          {
+            layer: historicSitesLayer,
+            title: "Historic Sites"
+          }
+        ]
+      });
+
+      // Add legend to the bottom right corner of the view
+      view.ui.add(legend, "bottom-right");
+
     });  
    </script>
 
