@@ -290,12 +290,19 @@
           index: 2
         })
       
-      // Create an airport icon
+      // Create the  myairport icon
+      // Define a pop-up for heliports layer
+      const popupMyAirports = {
+        title: "{AirportCode}",
+        //Content goes in a table
+        content: "<table><tbody><tr><td><b>Airport Code: </b></td><td>{AirportCode}</td></tbody></table>"
+      }
+      
       const myairportRenderer = {
         "type": "simple",
         "symbol": {
           "type": "picture-marker",
-          "url": "https://alisoncase.github.io/agol/airplane_ticket.png",
+          "url": "https://alisoncase.github.io/agolrest/airplane_ticket.png",
           "width": "18px",
           "height": "18px"
         }
@@ -327,7 +334,8 @@
       renderer: myairportRenderer, //add the icon
       labelingInfo: [myairportLabels], //add the labels
       //adding the popup here
-      outFields: ["AirportCode"]
+      outFields: ["AirportCode"],
+      popupTemplate: popupMyAirports
       });
 
       //adding the feature layer to the map
