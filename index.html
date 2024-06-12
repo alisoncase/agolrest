@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Hello, AGOL! Write this to the database for me!</title>
+  <title>Hello, AGOL! Add your own airports!</title>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <meta name="description" content="" />
@@ -178,7 +178,7 @@
         }
       }
 
-      // Const to make the airport labels
+      // Define the airport labels
       const airportLabels = {
         symbol: {
           type: "text",
@@ -227,7 +227,7 @@
         }
       }
 
-      //const to make the heliport labels
+      // Define the heliport labels
       const heliportLabels = {
         symbol: {
           type: "text",
@@ -291,14 +291,14 @@
           index: 2
         })
       
-      // Create the  myairport icon
-      // Define a pop-up for heliports layer
+
+      // Define a pop-up for My Airports layer
       const popupMyAirports = {
-        title: "{AirportCode}",
+        title: "My Airports",
         //Content goes in a table
         content: "<table><tbody><tr><td><b>Airport Code: </b></td><td>{AirportCode}</td></tbody></table>"
       }
-      
+      // Create the My Airport icon
       const myairportRenderer = {
         "type": "simple",
         "symbol": {
@@ -309,12 +309,12 @@
         }
       }
 
-      // Const to make the airport labels
+      // Define the My Airport labels
       const myairportLabels = {
         symbol: {
           type: "text",
           color: "#FFFFFF", //white
-          haloColor: "#ff7f00", //orange
+          haloColor: "#F19E39", //orange
           haloSize: "2px",
           font: {
             size: "12px",
@@ -329,17 +329,17 @@
         }
       };
       
-        //adding the const for the feature layer
+      // Create the My Airports layer
       const myAirports = new FeatureLayer({
       url: "https://services.arcgis.com/HRPe58bUyBqyyiCt/arcgis/rest/services/My_Airports_June_2024/FeatureServer",
       renderer: myairportRenderer, //add the icon
       labelingInfo: [myairportLabels], //add the labels
-      //adding the popup here
+      //add the popup
       outFields: ["AirportCode"],
       popupTemplate: popupMyAirports
       });
 
-      //adding the feature layer to the map
+      // Add the My Airports layer to the map
       map.add(myAirports);
       
       // Set the point layer's LayerInfo
@@ -356,6 +356,7 @@
       // Add the widget to the view
       view.ui.add(editor, "top-right");
     
+      // Define the legend
       const legend = new Legend ({
         view: view,
         layerInfos: [
